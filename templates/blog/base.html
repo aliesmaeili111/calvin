@@ -1,0 +1,247 @@
+{% load static %}
+{% load base_tags %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>
+        کالوین بلاگ 
+        {% block title %}
+        
+        {% endblock %}
+    </title>
+    <meta name="description" content="Calvin blog">
+    <meta name="author" content="Ali esmaeili">
+    {% block add-link_contact %}{% endblock %}
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{% static 'blog/css/vendor.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/rtl.css' %}">
+
+    <!-- script
+    ================================================== -->
+    <script src="{% static 'blog/js/modernizr.js' %}"></script>
+    <script defer src="{% static 'blog/js/fontawesome/all.min.js' %}"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'blog/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'blog/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'blog/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'blog/site.webmanifest' %}">
+    {% block page_404 %}
+    
+    {% endblock %}
+</head>
+
+<body id="top">
+
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader"> 
+    	<div id="loader"></div>
+    </div>
+
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="s-header__logo">
+            <a class="logo" href="{% url 'blog:home' %}">
+                <img src="{% static 'blog/images/logo.svg' %}" alt="Homepage" title="Calvin blog">
+            </a>
+        </div>
+          
+        <!-- add navbar  -->
+                
+        <div class="row s-header__navigation">
+
+            <nav class="s-header__nav-wrap">
+
+                <ul class="s-header__nav font">
+                    <li class="current"><a href="{% url 'blog:home' %}" title="خانه">خانه <i class="fa fa-home" aria-hidden="true"></i></a></li>
+                    {% cetagory_navbar %}
+                    <li><a href="{% url 'blog:about' %}" title="درباره">درباره ما  </a></li>
+                    <li><a href="{% url 'blog:contact' %}" title="ارتباط">ارتباط با ما  </a></li>
+                        {% if user.is_authenticated %}
+                           
+                                <li class="current"><a href="{% url 'logout' %}" title="خروج از وبلاگ">خروج</a></li>
+                                <li class="current"><a target="_blank" href="{% url 'account:profile' %}" title=" پروفایل {{user.get_full_name}}">خوش آمدید {{user.get_full_name}}</a></li>
+                        
+                        {% else %}
+                      
+                                <li class="current"><a href="{% url 'login' %}" title="ورود به وبلاگ">ورود</a></li>
+                                <li class="current" ><a href="{% url 'social:begin' 'google-oauth2' %}" title="ورود با گوگل" style="color:rgb(195, 15, 0);">  Google ورود با </a></li>
+                            
+                        {% endif %}
+                    
+                </ul> <!-- end s-header__nav -->
+
+                <a href="#0" title="Close Menu" class="s-header__overlay-close close-mobile-menu">Close</a>
+
+            </nav> <!-- end s-header__nav-wrap -->
+
+        </div> <!-- end s-header__navigation -->
+
+        <a class="s-header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
+
+        <div class="s-header__search">
+
+            <div class="s-header__search-inner">
+                <div class="row wide">
+
+                    <form class="s-header__search-form" action="{% url 'blog:search' %}">
+                        <label>
+                            <span class="h-screen-reader-text">جستجو :</span>
+                            <input type="search" class="s-header__search-field font" style="text-align: right;" placeholder="جستجو" value="" name="q" title="جستجو ..." autocomplete="off">
+                        </label>
+                        <input type="submit" class="s-header__search-submit" value="جستجو"> 
+                    </form>
+
+                    <a href="#0" title="بستن جستجو " class="s-header__overlay-close">بستن</a>
+
+                </div> <!-- end row -->
+            </div> <!-- s-header__search-inner -->
+
+        </div> <!-- end s-header__search wrap -->	
+
+        <a class="s-header__search-trigger" href="#" title="جستجو">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.982 17.983"><path fill="#010101" d="M12.622 13.611l-.209.163A7.607 7.607 0 017.7 15.399C3.454 15.399 0 11.945 0 7.7 0 3.454 3.454 0 7.7 0c4.245 0 7.699 3.454 7.699 7.7a7.613 7.613 0 01-1.626 4.714l-.163.209 4.372 4.371-.989.989-4.371-4.372zM7.7 1.399a6.307 6.307 0 00-6.3 6.3A6.307 6.307 0 007.7 14c3.473 0 6.3-2.827 6.3-6.3a6.308 6.308 0 00-6.3-6.301z"/></svg>
+        </a>
+
+    </header> <!-- end s-header -->
+  
+
+    {% block main %}
+    
+    {% endblock %}
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer">
+
+        <div class="s-footer__main">
+
+            <div class="row">
+
+                <div class="column large-3 medium-6 tab-12 s-footer__info">
+
+                    <h5 class="font">
+                        <i class="fa fa-book" aria-hidden="true"></i> 
+                        درباره سایت ما
+                        
+                    </h5>
+
+                    <p>
+                    این سایت پر از مقالات های زیبا و دوست داشتنی است لطفا از مقالات ما در سایت دیدن کنید و از آن لذت کامل را ببرید با تشکر
+                    </p>
+
+                </div> <!-- end s-footer__info -->
+
+                <div class="column large-2 medium-3 tab-6 s-footer__site-links">
+
+                    <h5 class="font"><i class="fa fa-link" aria-hidden="true"></i> پیوند های سایت</h5>
+
+                    <ul>
+                        <li><a href="{% url 'blog:about' %}" >درباره ما <i class="fa fa-info" aria-hidden="true"></i></a></li>
+                        <li><a href="{% url 'blog:home' %}">کالوین وبلاگ</a></li>
+                        <li><a href="{% url 'blog:contact' %}">ارتباط با ما <i class="fa fa-phone" aria-hidden="true"></i></a></li>
+               
+           
+                    </ul>
+
+                </div> <!-- end s-footer__site-links -->  
+
+                <div class="column large-2 medium-3 tab-6 s-footer__social-links">
+
+                    <h5 class="font">
+                        <i class="far fa-user" aria-hidden="true"></i>
+                        ما را دنبال کنید 
+                    </h5>
+
+
+                    <ul>
+                        <li><a href="https://www.linkedin.com/in/ali-esmaeili-374094226/"><i class="fab fa-linkedin" aria-hidden="true"></i> linkedin</a></li>
+                        <li><a href="https://www.linkedin.com/esmaeilii7"><i class="fab fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+                        <li><a href="https://github.com/aliesmaeili111"><i class="fab fa-github" aria-hidden="true"></i> Github</a></li>
+                    </ul>
+
+                </div> <!-- end s-footer__social links --> 
+
+                <div class="column large-3 medium-6 tab-12 s-footer__subscribe">
+                    <h5 class="font">
+                        <i class="far fa-envelope" aria-hidden="true"></i>
+                    برای خبر نامه ثبت نام کنید
+
+                    </h5>
+
+                    <p>برای دریافت به روز رسانی در مورد مقالات،مصابحه ها و رویداد ها ثبت نام کنید</p>
+
+                    <div class="subscribe-form">
+                
+                        <form id="mc-form" class="group" novalidate="true">
+
+                            <input type="email" value="" name="dEmail" class="email font" id="mc-email" placeholder="آدرس ایمیل" required=""> 
+                
+                            <input class="font" type="submit" name="subscribe" value="دنبال کردن" >
+                
+                            <label for="mc-email" class="subscribe-message"></label>
+                
+                        </form>
+
+                    </div>
+
+                </div> <!-- end s-footer__subscribe -->
+
+            </div> <!-- end row -->
+
+        </div> <!-- end s-footer__main -->
+
+        <div class="s-footer__bottom">
+            <div class="row">
+                <div class="column">
+                    <div class="ss-copyright">
+                        <span>© کپی رایت کالوین بلاگ</span> 
+                        <span>طراحی شده توسط <a href="https://www.styleshout.com/">استایل شات</a></span>
+                    </div> <!-- end ss-copyright -->
+                </div>
+            </div> 
+
+            <div class="ss-go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top">
+                    <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M7.5 1.5l.354-.354L7.5.793l-.354.353.354.354zm-.354.354l4 4 .708-.708-4-4-.708.708zm0-.708l-4 4 .708.708 4-4-.708-.708zM7 1.5V14h1V1.5H7z" fill="currentColor"></path></svg>
+                </a>
+            </div> <!-- end ss-go-top -->
+        </div> <!-- end s-footer__bottom -->
+
+   </footer> <!-- end s-footer -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="{% static 'blog/js/jquery-3.5.0.min.js' %}"></script>
+    <script src="{% static 'blog/js/plugins.js' %}"></script>
+    <script src="{% static 'blog/js/main.js' %}"></script>
+    {% block scr_comment %}
+    
+    {% endblock %}
+
+    {% block add_script_contact %}
+
+    {% endblock %}
+
+
+</body>
+
+</html>

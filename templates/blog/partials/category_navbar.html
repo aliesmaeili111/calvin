@@ -1,0 +1,9 @@
+
+            <li class="has-children">
+                <a href="" title="دسته بندی ها">دسته بندی </a>
+                <ul class="sub-menu ">
+                    {% for cat in category %}
+                        <li><a href="{% url 'blog:category' cat.slug %}" style="text-align: right;" class="font">{{cat.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>

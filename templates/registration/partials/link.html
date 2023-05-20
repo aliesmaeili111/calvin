@@ -1,0 +1,7 @@
+<a class="mdl-navigation__link font
+    {% if request.resolver_match.url_name == link_name %}
+        mdl-navigation__link--current 
+    {% endif %}" href="{% url link %}">
+         {{content}}
+    <i class="material-icons">{{icon}}</i>
+</a>

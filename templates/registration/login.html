@@ -1,0 +1,109 @@
+{% extends 'registration/base_auth.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+			{% block login %}
+				<form class="login100-form validate-form" method="post">
+					{% csrf_token %}      
+                    <!-- errors -->
+
+						{% if form.non_field_errors %}
+									
+                            <div class="alert">
+                                {% for error in form.non_field_errors %}
+                                    <span>{{error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    <!-- end errors -->
+                  
+					<span class="login100-form-title p-b-55 myfont">
+						ورود
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-16">
+						{{form.username|add_class:'input100 myfont'|remove_attr:"required"|remove_attr:'data-validate'|append_attr:'placeholder:نام کاربری'}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-user"></span>
+						</span>
+					</div>
+                    	<!-- errors username -->
+
+						{% if form.username.errors %}
+									
+                            <div class="alert">
+                                {% for error in form.username.errors %}
+                                    <span>نام کاربری :{{error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- end errors username -->
+
+					<div class="wrap-input100 validate-input m-b-16">
+						{{form.password|add_class:'input100 myfont'|remove_attr:'data-validate'|remove_attr:"required"|append_attr:'placeholder:گذرواژه'}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+						</span>
+					
+					</div>
+
+                    <!-- errors pass-->
+
+					{% if form.password.errors %}
+										
+                        <div class="alert">
+                            {% for error in form.password.errors %}
+                                <span> گذرواژه :{{error}}</span>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+				
+                    <!-- end errors pass -->
+				
+					<div class="contact100-form-checkbox m-l-4">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100 myfont" for="ckb1">
+                            بخاطر سپاردن
+						</label>
+					</div>
+					
+					<div class="container-login100-form-btn p-t-25">
+						<button class="login100-form-btn myfont">
+							ورود
+						</button>
+					</div>
+
+					<div class="text-center w-full p-t-42 p-b-22">
+					
+					</div>
+
+					<a href="{% url 'password_reset' %}" class="btn-face m-b-10 myfont">
+						<i class="fa fa-key"></i>
+						فراموشی رمز عبور
+					</a>
+
+					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-10">
+						<img src="{% static 'registration/login/images/icons/icon-google.png' %}" alt="GOOGLE LOGIN">
+						Google
+					</a>
+
+					<div class="text-center w-full p-t-115">
+						<span class="txt1 myfont">
+							عضو نیستی؟
+						</span>
+
+						<a class="txt1 bo1 hov1 myfont" href="{% url 'register' %}">
+							همین الان ثبت نام کن							
+						</a><br>
+					
+					</div>
+				</form>
+			{% endblock %}
+
+	

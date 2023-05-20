@@ -1,0 +1,202 @@
+{% load static %}
+
+<!doctype html>
+<!--
+  Material Design Lite
+  Copyright 2015 Google Inc. All rights reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'registration/adminlte/images/DB_16х16.png' %}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> مدیریت وبلاگ{% block title %}
+    
+    {% endblock %}</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+
+       <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'blog/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'blog/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'blog/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'blog/site.webmanifest' %}">
+
+    {% block add-link %}
+    
+    {% endblock %}
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+    -->
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900' rel='stylesheet'
+          type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'registration/adminlte/css/lib/getmdl-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'registration/adminlte/css/lib/nv.d3.min.css' %}">
+    <link rel="stylesheet" href="{% static 'registration/adminlte/css/application.min.css' %}">
+    <link rel="stylesheet" href="{% static 'registration/adminlte/css/rtl.css' %}">
+    <!-- endinject -->
+
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header is-small-screen">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <div class="mdl-layout-spacer ">
+                <a class="font" target="_blank" href="{% url 'blog:home' %}">نمایش سایت</a>
+            </div>
+            {% if user.is_superuser %}                
+                <div class="mdl-layout-spacer ">
+                    <a class="font" target="_blank" href="/admin-pannel-user">ورود ادمین</a>
+                </div>
+            {% endif %}
+            <!-- Search-->
+            <form action="{% url 'account:search' %}">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                    <label class="mdl-button mdl-js-button mdl-button--icon" for="q">
+                        <i class="material-icons">search</i>
+                    </label>
+                    <div class="mdl-textfield__expandable-holder">
+                        <input class="mdl-textfield__input font" name="q" type="text" id="q" style="text-align: right;" placeholder="جستجو"/>
+                    </div>
+                
+                </div>
+            </form>
+
+            <div class="avatar-dropdown" id="icon">
+                <span> 
+                    {% if user.get_full_name %}
+                        {{user.get_full_name}}
+                    {% else %}
+                        {{user.username}}
+                    {% endif %}
+                </span>
+                <img src="{% if user.photo %} {{ user.photo.url }} {% else %} {% static 'registration/adminlte/images/user-avatar.png' %} {% endif %}"style="border-radius:50%;" >
+            </div>
+            <!-- Account dropdawn-->
+            <ul class="mdl-menu mdl-list mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect mdl-shadow--2dp account-dropdown" 
+                for="icon" style="text-align: right;">
+                <li class="mdl-list__item mdl-list__item--two-line">
+                    <span class="mdl-list__item-primary-content">
+                        <span class="material-icons mdl-list__item-avatar" style="{% if user.photo %} background-image: url('{{ user.photo.url }}') {% else %} background-image: url('{% static 'registration/adminlte/images/user-avatar.png' %}'){% endif %};"></span>
+                        <span class="font">{{user.get_full_name}}</span>
+                        <span class="mdl-list__item-sub-title">{{user.email}}</span>
+                    </span>
+                </li>
+
+                
+                <li class="list__item--border-top"></li>
+                <a href="{% url 'account:profile' %}">
+                    <li class="mdl-menu__item mdl-list__item"  >
+                        <span class="mdl-list__item-primary-content font" style="justify-content: flex-end;">
+                            <i class="material-icons mdl-list__item-icon">account_circle</i>
+                            پروفایل
+                        </span>
+                    </li>
+                </a>
+                <li class="list__item--border-top"></li>
+         
+                <a href="{% url 'logout' %}">
+                    <li class="mdl-menu__item mdl-list__item">
+                        <span class="mdl-list__item-primary-content font" style="justify-content: flex-end;">
+                            <i class="material-icons mdl-list__item-icon text-color--secondary">exit_to_app</i>
+                            خروج از حساب کاربری
+                        </span>
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </header>
+
+    {% include 'registration/sidebar.html' %}
+
+    <main class="mdl-layout__content">
+
+        <div class="mdl-grid mdl-grid--no-spacing dashboard">
+
+            <div class="mdl-grid mdl-cell mdl-cell--9-col-desktop mdl-cell--12-col-tablet mdl-cell--4-col-phone mdl-cell--top">
+
+                <!-- Weather widget-->
+                <div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--2-col-phone">
+                    <div class="mdl-card mdl-shadow--2dp weather">
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text font" id="demo"> 
+                                امروز
+                            </h2>
+
+                            <div class="mdl-layout-spacer"></div>
+                            <div class="mdl-card__subtitle-text font">
+                                <i class="material-icons">room</i>
+                                ایران
+                            </div>
+                        </div>
+   
+                    </div>
+
+                </div>
+
+            </div>
+            
+
+                {% block main %}
+                
+                {% endblock %}
+
+                
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<!-- inject:js -->
+<script src="{% static 'registration/adminlte/js/d3.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/getmdl-select.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/material.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/nv.d3.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/layout/layout.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/scroll/scroll.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/charts/discreteBarChart.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/charts/linePlusBarChart.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/charts/stackedBarChart.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/employer-form/employer-form.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/line-chart/line-charts-nvd3.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/map/maps.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/pie-chart/pie-charts-nvd3.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/table/table.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/widgets/todo/todo.min.js' %}"></script>
+<script src="{% static 'registration/adminlte/js/date.js' %}"></script>
+{% block add_script %}
+{% endblock %}
+
+<!-- endinject -->
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'registration/base_auth.html' %}
+{% load static %}
+
+{% block title-auth %}
+|   لینک منقضی شده است   
+{% endblock %}
+
+{% block login %}
+        <form class="login100-form validate-form" >
+      
+            <span class="login100-form-title p-b-55 myfont">
+                این لینک منقضی شده است
+            </span>
+
+            <div class="wrap-input100 validate-input m-b-16">
+ 
+                <p class="myfont">    
+                    لطفا دوباره امتحان کنید
+                </p>
+            </div>
+
+            <a href="{% url 'register' %}" class="btn-face m-b-10 myfont">
+                <i class="fa fa-user-plus"></i>
+                    ثبت نام 
+            </a>
+
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-10">
+				<img src="{% static 'registration/login/images/icons/icon-google.png' %}" alt="GOOGLE LOGIN">
+					Google
+			</a>
+            
+        </form>
+{% endblock %}

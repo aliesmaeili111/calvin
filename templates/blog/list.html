@@ -1,0 +1,206 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block main %}
+  <!-- hero
+    ================================================== -->
+    <section id="hero" class="s-hero">
+
+        <div class="s-hero__slider">
+
+            <div class="s-hero__slide">
+
+                <div class="s-hero__slide-bg" style="background-image: url('{% static 'blog/images/slide1-bg-3000.jpg' %}');"></div>
+
+                <div class="row s-hero__slide-content animate-this">
+                    <div class="column">
+                        <h1 class="s-hero__slide-text font" style="text-align:right;font-size:35px;">
+                                پر از مقالات زیبا در این وبلاگ میتونی پیدا کنید
+                        </h1>
+                    </div>
+                </div>
+
+            </div> <!-- end s-hero__slide -->
+
+            <div class="s-hero__slide">
+
+                <div class="s-hero__slide-bg" style="background-image: url('{% static 'blog/images/slide2-bg-3000.jpg' %}');"></div>
+
+                <div class="row s-hero__slide-content animate-this">
+                    <div class="column">
+            
+                        <h1 class="s-hero__slide-text font" style="text-align:right;font-size:35px;">
+                     
+                                این وبلاگ حاصل چند ماه کار کردن است تا شما بتوانید به راحتی از آن استفاده کنید
+                           
+                        </h1>
+                    </div>
+                </div>
+
+            </div> <!-- end s-hero__slide -->
+
+            <div class="s-hero__slide">
+
+                <div class="s-hero__slide-bg" style="background-image: url('{% static 'blog/images/slide3-bg-3000.jpg' %}');"></div>
+
+                <div class="row s-hero__slide-content animate-this">
+                    <div class="column">
+             
+                        <h1 class="s-hero__slide-text font" style="text-align:right;font-size:35px;">
+                            مقالات ما را در کالوین وبلاگ دنبال کنید
+                        </h1>
+                    </div>
+                </div>
+
+            </div> <!-- end s-hero__slide -->
+
+        </div> <!-- end s-hero__slider -->
+
+        <div class="s-hero__social hide-on-mobile-small">
+            <p>Follow</p>
+            <span></span>
+            <ul class="s-hero__social-icons">
+                <li><a href="https://www.linkedin.com/in/ali-esmaeili-374094226/"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.linkedin.com/esmaeilii7/"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="https://github.com/aliesmaeili111/"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+            </ul>
+        </div> <!-- end s-hero__social -->
+
+        <div class="nav-arrows s-hero__nav-arrows">
+            <button class="s-hero__arrow-prev">
+                <svg viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M1.5 7.5l4-4m-4 4l4 4m-4-4H14" stroke="currentColor"></path></svg>
+            </button>
+            <button class="s-hero__arrow-next">
+               <svg viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M13.5 7.5l-4-4m4 4l-4 4m4-4H1" stroke="currentColor"></path></svg>
+            </button>
+        </div> <!-- end s-hero__arrows -->
+
+    </section> <!-- end s-hero -->
+        <!-- content
+    ================================================== -->
+    <!-- content
+    ================================================== -->
+    <section class="s-content">
+
+
+        {% block header %}
+
+        {% endblock %}
+
+        <!-- masonry
+        ================================================== -->
+        <div class="s-bricks s-bricks--half-top-padding">
+
+            <div class="masonry">
+                <div class="bricks-wrapper h-group">
+
+                    <div class="grid-sizer"></div>
+
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    {% for article in object_list %}       
+                        <article class="brick entry" data-aos="fade-up" >
+        
+                            <div class="entry__thumb">
+                                <a href="{% url 'blog:detail' article.slug %}" class="thumb-link">
+                                    <img src="{{article.thumbnail.url}}" 
+                                        srcset="{{article.thumbnail.url}} 1x, {{article.thumbnail.url}} 2x" alt="{{article.title}}">
+                                </a>
+                            </div> <!-- end entry__thumb -->
+        
+                            <div class="entry__text">
+                                <div class="entry__header">
+                                    <h1 class="entry__title"><a href="{% url 'blog:detail' article.slug %}" class="font">{{article.title}}</a></h1>
+                                    
+                                    <div class="entry__meta">
+                                        <span class="byline font"> نویسنده:
+                                            <span class='author'>
+                                                <a href="{% url 'blog:author' article.author %}">{{article.author.get_full_name}}</a>
+                                        </span>
+                                    </span>
+                                        <span class="cat-links font" style="float:left;">
+                                            {% for cat in article.category.active %} 
+                                                <a href="{% url 'blog:category' cat.slug %}">{{cat.title}}</a>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="entry__excerpt">
+                                    <p>
+                                        {{article.description|safe|striptags|truncatewords:30|truncatechars:20}}
+                                    </p>
+                                    <span class="entry__more-link font">{{article.publish|timesince}} پیش</span>
+                                </div>
+                                <span>بازدید ها :{{article.hits.count}}</span>
+                                <h6 class="font">
+                                    <a class="entry__more-link" href="{% url 'blog:detail' article.slug %}">
+                                        بیشتر
+                                    </a>
+                                </h6>
+                            </div> <!-- end entry__text -->
+                        
+                        </article> <!-- end article -->
+                        {% empty %}
+                        <span>محتوایی برای نمایش وجود ندارد</span>
+                    {% endfor %}
+                </div> <!-- end brick-wrapper -->
+
+            </div> <!-- end masonry -->
+
+            <!-- start pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="row">
+                <div class="column large-12">
+                    <nav class="pgn ">
+                        <ul>
+
+                            {% if page_obj.has_previous %}    
+                                <li>
+                                    <a class="pgn__prev font " href="{% block previous_url %} {% endblock %}">
+                                        قبلی
+                                    </a>
+                                </li>
+                            {% endif %}
+
+
+                            {% if page_obj.number|add:'-2' > 1 %}
+                                <li><a class="pgn__num" href="">&hellip;</a></li>
+                            {% endif %}
+
+                            {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                    <li><a class="pgn__num current" href="{% block page_obj_number_current %} {% endblock %}">{{i}}</a></li>
+                                {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                                    <li><a class="pgn__num" href="{% block page_obj_number %} {% endblock %}">{{i}}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+
+                            {% if page_obj.paginator.num_pages > page_obj.number|add:'2' %}
+                                <li><a class="pgn__num" href="{% block num_pages_dot %} {% endblock %}">&hellip;</a></li>
+                           
+                                <li><a class="pgn__num" href="{% block num_pages_dot_2 %} {% endblock %}">{{ page_obj.paginator.num_pages }}</a></li>
+                            {% endif %}
+
+
+                            {% if page_obj.has_next %}   
+                                <li>
+                                    <a class="pgn__next font " href="{% block next_url %} {% endblock %}">
+                                        بعدی
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav> <!-- end pgn -->
+                </div> <!-- end column -->
+            </div> <!-- end row -->
+        {% endif %}
+            <!-- end pagination -->
+
+        </div> <!-- end s-bricks -->
+
+    </section> <!-- end s-content -->
+{% endblock %}

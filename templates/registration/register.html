@@ -1,0 +1,202 @@
+{% extends 'registration/base_auth.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title-auth %}
+ | ثبت نام 
+{% endblock %}
+
+
+{% block css_pass %}
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/password.css' %}">
+{% endblock %}
+
+
+			{% block login %}
+				<form class="login100-form validate-form" method="post">
+					{% csrf_token %}      
+                    <!-- errors -->
+
+						{% if form.non_field_errors %}
+									
+                            <div class="alert">
+                                {% for error in form.non_field_errors %}
+                                    <span>{{error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    <!-- end errors -->
+                  
+					<span class="login100-form-title p-b-55 myfont">
+						ثبت نام در وبلاگ
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-16">
+						{{form.username|add_class:'input100 myfont'|remove_attr:"required"|remove_attr:'data-validate'|append_attr:'placeholder:نام کاربری'}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-user"></span>
+						</span>
+					</div>
+                    	<!-- errors username -->
+
+						{% if form.username.errors %}
+									
+                            <div class="alert">
+                                {% for error in form.username.errors %}
+                                    <span>نام کاربری :{{error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- end errors username -->
+
+					<div class="wrap-input100 validate-input m-b-16">
+						{{form.email|add_class:'input100 myfont'|remove_attr:'data-validate'|remove_attr:"required"|append_attr:'placeholder:ایمیل'}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-envelope"></span>
+						</span>
+					</div>
+
+                    <!-- errors email-->
+
+					{% if form.email.errors %}
+										
+                        <div class="alert">
+                            {% for error in form.email.errors %}
+                                <span> ایمیل :{{error}}</span>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+                    <!-- end errors email -->
+
+                    <div class="wrap-input100 validate-input m-b-16">
+
+						{% render_field form.password1 class='input100 myfont' id='password' placeholder="گذرواژه" %}
+
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+						</span>
+						<span id="message">رمز شما <span id="strength"></span></span>
+					</div>
+
+                    <!-- errors pass 1-->
+
+					{% if form.password1.errors %}
+										
+                        <div class="alert">
+                            {% for error in form.password1.errors %}
+                                <span> گذرواژه :{{error}}</span>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+                    <!-- end errors pass 1-->
+
+                    <div class="wrap-input100 validate-input m-b-16">
+						{{form.password2|add_class:'input100 myfont'|remove_attr:'data-validate'|remove_attr:"required"|append_attr:'placeholder:تایید گذرواژه'}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+						</span>
+					
+					</div>
+
+                    <!-- errors pass 2-->
+
+					{% if form.password2.errors %}
+										
+                        <div class="alert">
+                            {% for error in form.password2.errors %}
+                                <span> تایید گذرواژه :{{error}}</span>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+                    <!-- end errors pass 2-->
+
+					<div class="wrap-input100 validate-input m-b-16">
+						{{form.captcha}}
+					</div>			
+					{% if form.captcha.errors %}
+										
+                        <div class="alert">
+                            {% for error in form.captcha.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}	
+
+					<div class="contact100-form-checkbox m-l-4">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100 myfont" for="ckb1">
+                            بخاطر سپاردن
+						</label>
+					</div>
+					
+					<div class="container-login100-form-btn p-t-25">
+						<button class="login100-form-btn myfont">
+							ثبت نام
+						</button>
+					</div>
+
+					<div class="text-center w-full p-t-42 p-b-22">
+						اگه عضو هستید همین الان وارد شوید	
+					</div>
+
+
+					<a href="{% url 'login' %}" class="btn-face m-b-10 myfont">
+						<i class="fa fa-sign-in"></i>
+						ورود
+					</a>
+
+					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-10">
+						<img src="{% static 'registration/login/images/icons/icon-google.png' %}" alt="GOOGLE LOGIN">
+						Google
+					</a>
+				</form>
+			{% endblock %}
+
+	
+{% block pass_strength %}
+        
+
+	<script>
+		var password = document.getElementById('password');
+		var msg = document.getElementById('message');
+		var str = document.getElementById('strength');
+
+		password.addEventListener('input', () => {
+			if(password.value.length > 0){
+				msg.style.display = 'block';
+			}
+			else{
+				msg.style.display = 'none';
+			}
+			if (password.value.length < 4 ){
+				str.innerHTML = 'ضعیف';
+				password.style.borderColor = '#ff5925';
+				msg.style.color = '#ff5925';
+			}
+			else if(password.value.length >= 4 && password.value.length < 8){
+				str.innerHTML = 'متوسط';
+				password.style.borderColor = '#d37000';
+				msg.style.color = '#d37000';
+			}
+			else if(password.value.length >= 8 ){
+				str.innerHTML = 'قوی است اما از (@,$,#,!,%,-,...)استفاده کنید';
+				password.style.borderColor = '#26d730';
+				msg.style.color = '#26d730';
+			}
+		})
+	</script>        
+
+{% endblock %}

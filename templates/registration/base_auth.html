@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> ورود به وبلاگ 
+        {% block title-auth %}
+        
+        {% endblock %}
+    </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'registration/login/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/rtl.css' %}">
+<!--===============================================================================================-->
+    {% block css_pass %}
+
+    {% endblock %}
+</head>
+<body>
+    <div class="limiter">
+		<div class="container-login100 ">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+                {% block login %}
+                            
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <!--===============================================================================================-->	
+    <script src="{% static 'registration/login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'registration/login/vendor/bootstrap/js/popper.js' %}"></script>
+        <script src="{% static 'registration/login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'registration/login/vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'registration/login/js/main.js' %}"></script>
+        {% block pass_strength %}
+        
+        {% endblock %}
+
+</body>
+</html>

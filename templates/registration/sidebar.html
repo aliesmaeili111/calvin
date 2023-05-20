@@ -1,0 +1,94 @@
+{% load base_tags %}
+{% load static %}
+<div class="mdl-layout__drawer">
+    <header>
+        <div class="s-header__logo">
+            <a class="logo" href="{% url 'account:home' %}">
+                <img src="{% static 'blog/images/logo.svg' %}" alt="Homepage" title="Calvin blog">
+            </a>
+        </div>     
+    </header>
+    <div class="scroll__wrapper" id="scroll__wrapper">
+        <div class="scroller" id="scroller">
+            <div class="scroll__container" id="scroll__container">
+                <nav class="mdl-navigation ">
+                    {% if user.is_superuser or user.is_author %}
+                        
+                        <a class="mdl-navigation__link mdl-navigation__link--current font" href="{% url 'account:home' %}">
+                            <i class="material-icons" role="presentation">dashboard</i>
+                            صفحه اصلی
+                        </a> 
+                        <div class="sub-navigation">
+
+                            <a class="mdl-navigation__link font">
+                                <i class="material-icons">view_comfy</i>
+                                مقالات
+                                <i class="material-icons">keyboard_arrow_down</i>
+                            </a>
+
+                            <div class="mdl-navigation">
+                            <!-- add link list  -->
+                            {% link request 'home' 'لیست مقالات' 'list' %}
+                            <!-- end add link list  -->
+                            </div>
+
+                            <div class="mdl-navigation">
+                                {% link request 'article-create' 'افزودن مقاله' 'add' %}
+                            </div>
+
+                            <div class="mdl-navigation">
+                                {% link request 'comment_list' 'لیست نظرات' 'comment' %}
+                            </div>
+                        
+                        </div>
+                        
+                    {% endif %}
+            
+              
+                    <div class="sub-navigation">
+                        <a class="mdl-navigation__link font">
+                            
+                            <i class="material-icons">account_circle</i>
+                            پروفایل
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </a>
+                        <div class="mdl-navigation">
+                            {% if user.is_authenticated %}
+                                <a class="mdl-navigation__link font" href="{% url 'account:profile' %}">
+                                    اطلاعات کاربری
+                                </a>
+                                <a class="mdl-navigation__link font" href="{% url 'password_reset' %}">
+                                    فراموشی گذرواژه
+                                </a>
+                                <a class="mdl-navigation__link font" href="{% url 'password_change' %}">
+                                    تغییر گذرواژه
+                                </a>
+
+                                {% if user.is_superuser %}    
+                                    <div class="mdl-navigation">
+                                        {% link request 'comment' 'نظر گذاری' 'comment' %}
+                                    </div>
+                                {% endif %}
+                                
+                            {% else %}
+                                <a class="mdl-navigation__link font" href="{% url 'login' %}">
+                                    <i class="material-icons">login</i>
+                                    ورود
+                                </a>
+                            {% endif %}
+                        </div>
+           
+                    </div>
+                    <div class="mdl-layout-spacer"></div>
+                    <hr>
+                    <a class="mdl-navigation__link font" href="{% url 'logout' %}">
+                      
+                        <i class="material-icons" role="presentation">exit_to_app</i>
+                        خروج از حساب کاربری
+                    </a>
+                </nav>
+            </div>
+        </div>
+        <div class='scroller__bar' id="scroller__bar"></div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+ <!-- Recentlu Articles -->
+ <div class="s-content__pagenav">
+    <h4 class="font">مقالات اخیر :</h4>
+    {% for s in popular_articles %}
+        
+        <div class="prev-nav">
+            <a href="{% url 'blog:detail' s.slug %}">
+                <span>
+                    {{s.title}}
+                </span>
+                <img width="80%" height="80%" style="border-radius: 7px;" src="{{s.thumbnail.url}}" alt="{{s.title}}">
+            </a>
+            <hr>
+        </div>
+
+    {% endfor %}
+
+ </div>

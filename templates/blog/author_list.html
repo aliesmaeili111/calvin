@@ -1,0 +1,45 @@
+{% extends 'blog/list.html' %}
+
+{% block title %}
+| {{author.get_full_name}}     
+{% endblock %}
+
+{% block header %}
+    <!-- page header ================================================== -->
+            <div class="s-pageheader">
+                <div class="row">
+                    <div class="column large-12">
+                        <h1 class="page-title font">
+                            <span class="page-title__small-type font "> نویسنده :
+                            {{ author.get_full_name }}
+                            </span>
+                        </h1>
+                    </div>
+                </div>
+            </div> <!-- end s-pageheader-->
+{% endblock %}
+
+
+{% block previous_url %}
+    {% url 'blog:author' author.username page_obj.previous_page_number %}
+{% endblock %}
+
+{% block page_obj_number_current %}
+    {% url 'blog:author' author.username page_obj.number %}
+{% endblock %}
+
+{% block page_obj_number%}
+    {% url 'blog:author' author.username i %}
+{% endblock %}
+
+{% block num_pages_dot %}
+    {% url 'blog:author' author.username page_obj.number %}
+{% endblock %}
+
+{% block num_pages_dot_2 %}
+    {% url 'blog:author' author.username page_obj.paginator.num_pages %}
+{% endblock %}
+
+{% block next_url %}
+    {% url 'blog:author' author.username page_obj.next_page_number %}
+{% endblock %}

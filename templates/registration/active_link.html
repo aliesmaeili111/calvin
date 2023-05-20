@@ -1,0 +1,32 @@
+{% extends 'registration/base_auth.html' %}
+{% load static %}
+
+{% block title-auth %}
+|  حساب کاربری شما با موفقیت فعال شد
+{% endblock %}
+
+{% block login %}
+        <form class="login100-form validate-form" >
+            <span class="login100-form-title p-b-55 myfont">
+                حساب کاربری شما با موفقیت فعال شد
+            </span>
+
+            <div class="wrap-input100 validate-input m-b-16">
+ 
+                <p class="myfont">    
+                    برای ورود کلیک کنید
+                </p>
+            </div>
+
+            <a href="{% url 'login' %}" class="btn-face m-b-10 myfont">
+                <i class="fa fa-sign-in"></i>
+                    ورود
+            </a>
+
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-10">
+				<img src="{% static 'registration/login/images/icons/icon-google.png' %}" alt="GOOGLE LOGIN">
+					Google
+			</a>
+            
+        </form>
+{% endblock %}

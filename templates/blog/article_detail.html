@@ -1,0 +1,278 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load base_tags %}
+{% block title %}
+| {{article.title}}        
+{% endblock %}
+
+{% block main %}
+    <!-- content
+    ================================================== -->
+    <section class="s-content">
+
+        <div class="row">
+            <div class="column large-12">
+
+                <article class="s-content__entry format-standard">
+
+                    <div class="s-content__media">
+                        <div class="s-content__post-thumb">
+                            <img src="{{article.thumbnail.url}}" 
+                                 srcset="{{article.thumbnail.url}} 2100w, 
+                                         {{article.thumbnail.url}} 1050w, 
+                                         {{article.thumbnail.url}} 525w" sizes="(max-width: 2100px) 100vw, 2100px" alt="{{article.title}}">
+                        </div>
+                    </div> <!-- end s-content__media -->
+
+                    <div class="s-content__entry-header">
+                        <h1 class="s-content__title s-content__title--post font">{{article.title}}</h1>
+                        <h1 class="s-content__title font" style="font-size: 15px;" >بازدید ها :{{article.hits.count}}</h1>
+                    </div> <!-- end s-content__entry-header -->
+
+                    <div class="s-content__primary">
+
+                        <div class="s-content__entry-content">
+
+                            <p class="lead">
+                                {{article.description|striptags|safe|linebreaks}}
+                            </p> 
+                  
+
+                        </div> <!-- end s-entry__entry-content -->
+
+                        <div class="s-content__entry-meta">
+
+                            <div class="entry-author meta-blk">
+                                <div class="author-avatar">
+                                    <img class="avatar" src="{% static 'blog/images/avatars/user-06.jpg' %}" alt="user profile">
+                                </div>
+                                <div class="byline" style="display: flex;gap:10px">
+                                    <span class="bytext">نویسنده:</span>
+                                    <a href="{% url 'blog:author' article.author %}">{{article.author.get_full_name}}</a>
+                                </div>
+                            </div>
+
+                            <div class="meta-bottom">
+                                
+                                <div class="entry-cat-links meta-blk">
+                                    <div class="cat-links">
+                            
+                                        {% for cat in article.category.all %}
+                                            <a href="{% url 'blog:category' cat.slug %}">{{cat.title}}</a>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div>
+                                        <span>تاریخ انتشار:
+                                            <p>{{article.jpublish}}</p>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+
+                        </div> <!-- s-content__entry-meta -->
+
+                        {% popular_articles %}
+
+                        <!-- end s-content__pagenav -->
+
+                    </div> <!-- end s-content__primary -->
+                </article> <!-- end entry -->
+
+            </div> <!-- end column -->
+        </div> <!-- end row -->
+
+
+        {% if request.user.is_authenticated %}
+        <!-- comments
+            ================================================== -->
+          
+                
+  
+            <div id="comments-wrap">
+                <div class="comment-wrapper">
+                    <div id="comments" class="row">
+                        <div class="column large-12">
+
+                            <h3 class="font">{{comment.count}} نظر</h3>
+                            {% if comment %}
+                            <!-- START commentlist -->
+                            {% for c in comment %}
+                                <div class="comment-tray">
+                                    <ol class="commentlist">
+      
+                                        <li class="depth-1 comment">
+
+                                                    <div class="comment__avatar">
+                                                        <img class="avatar" src="{{c.user.photo.url}}" alt="{{c.user.username}}" width="50" height="50">
+                                                    </div>
+
+                                                    <div class="comment__content">
+
+                                                        <div class="comment__info">
+                                                            <div class="comment__author">{{c.user.get_full_name}}</div>
+                                                        </div>
+                                                        <div class="comment__meta">
+                                                            <div class="comment__time"> {{c.date|timesince}}  </div>
+                                                            
+                                                        </div>
+                             
+                                                        {% if user.is_superuser or request.user == c.user %} 
+                                                      
+                                                            <div class="comment__reply">
+                                                                <input type="hidden" value="{{c.id}}">
+                                                                <button class="btn-del font" style="width:50px;background:white;border:none;text-align:center;color:rgb(189, 21, 21);" data-cid="{{c.id}}" style="color:rgb(185,55,75);">حذف</button>
+                                                            </div>
+
+                                                        {% endif %}
+
+                                                        <div class="comment__text">
+                                                        <p>{{c.comment}}</p>
+                                                        </div>
+
+                                                    </div>
+
+                                        </li> <!-- end comment level 1 -->
+                                        
+                                    </ol>
+                                </div>
+                            {% endfor %}
+                            {% else %}
+                            <span>نظری برای این مقاله وجود ندارد</span>
+                            {% endif %} 
+                            <!-- END commentlist -->
+
+                        </div> <!-- end col-full -->
+                    </div> <!-- end comments -->
+                </div>
+
+                <div class="row comment-respond">
+
+                    <!-- START respond -->
+                    <div id="respond" class="column">
+
+                        <h3 class="font">
+                        اضافه کردن نظر
+                        </h3>
+
+                        <form id="comment_form" method="post" action="{% url 'blog:detail' article.slug %}">
+                            {% csrf_token %}
+                            <fieldset>
+
+                                <div class="message form-field">
+                                    <input name="" type="text" id="comment" name="comment" class="h-full-width font" placeholder="نظر خود را درباره مقاله  بنویسید">
+                                    <input name="" id="id" name="id" type="hidden" value="{{article.id}}">
+                                </div>
+
+                                <br>
+                                <input name="submit" id="submit" class="btn btn--primary btn-wide btn--large h-full-width font" value="ارسال" type="submit">
+
+                            </fieldset>
+                        </form> <!-- end form -->
+
+                    </div>
+                    <!-- END respond-->
+
+                </div> <!-- end comment-respond -->
+
+            </div> <!-- end comments-wrap -->
+    
+        {% else %}
+            <span class="font" style="background: rgb(238, 238, 238);padding:12px 0;display: block;text-align: center;">برای دیدن نظرات و همچنین  نظر دادن ابتدا باید <a href="{% url 'login' %}">وارد</a> شوید</span>
+        {% endif %}
+
+    </section> <!-- end s-content -->
+
+{% endblock %}
+
+
+{% block scr_comment %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+        $(document).on('submit', '#comment_form', function(e){
+            e.preventDefault()
+            let _comment = $("#comment").val()
+            console.log(_comment);
+            
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:save-comment' %}",
+                data: {
+                    id: $('#id').val(),
+                    comment: _comment,
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+                },
+                success: function(){
+                    console.log('Comment passes to backend');
+       
+                    $('#comment').val('')
+          
+
+                let _html = '<li class="depth-1 comment">\
+                                <div class="comment__avatar">\
+                                    <img class="avatar" src="{{c.user.photo.url}}" alt="{{request.user.username}}" width="50" height="50">\
+                                </div>\
+                                <div class="comment__content">\
+                                    <div class="comment__info">\
+                                        <div class="comment__author">{{c.user.get_full_name}}</div>\
+                                    </div>\
+                                    <div class="comment__meta">\
+                                        <div class="comment__time">{% now "Y" %} پیش</div>\
+                                    </div>\
+                                    <div class="comment__text">\
+                                    <p> '+ _comment +'</p>\
+                                    </div>\
+                                </div>\
+                            </li>\
+                            '
+
+                        $('#comment-wrapper').prepend(_html)
+                        $('#comment').val('')
+                        
+                },
+
+                error: function(error){
+                    console.log(error);
+                }
+
+            })
+        });
+
+    //   Delete Comment
+    $('.comment-wrapper').on('click', '.btn-del', function(){
+        //console.log("Delete Comment Button is clicked.")
+
+        let id = $(this).attr('data-cid')
+
+        mydata = {
+            cid:id
+        }
+
+        mythis = $(this)
+        
+        $.ajax({
+            type: "POST",
+            url: "{% url 'blog:delete-comment' %}",
+            data: mydata,
+
+
+            success: function(data){
+                //console.log(dara);
+                if(data.status === 1){
+                    //console.log("comment deleted");
+                    $(mythis).closest('.comment-tray').fadeOut();
+                }
+
+                if(data.status === 0){
+                  //  console.log("Unable to Deleted comment");
+                    alert("Unable to Deleted comment.Try again later...")
+                }
+            }
+        })
+    })
+    </script>
+{% endblock %}

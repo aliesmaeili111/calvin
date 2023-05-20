@@ -1,0 +1,139 @@
+{% extends 'blog/base.html' %}
+{% block title %}
+         | ارتباط با ما
+{% endblock %}
+{% load static %}
+
+{% block add-link_contact %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+{% endblock %}
+
+
+{% block main %}
+
+    <!-- content
+    ================================================== -->
+    <section class="s-content">
+
+        <div class="row">
+            <div class="column large-12">
+
+                <article class="s-content__entry">
+
+                    <div class="s-content__media">
+                        <img src="{% static 'blog/images/thumbs/contact/contact-1050.jpg' %}" 
+                                srcset="{% static 'blog/images/thumbs/contact/contact-2100.jpg' %} 2100w, 
+                                        {% static 'blog/images/thumbs/contact/contact-1050.jpg' %} 1050w, 
+                                        {% static 'blog/images/thumbs/contact/contact-525.jpg' %} 525w" sizes="(max-width: 2100px) 100vw, 2100px" alt="">
+                    </div> <!-- end s-content__media -->
+
+                    <div class="s-content__entry-header">
+                        <h1 class="s-content__title font">با ما در تماس باشید</h1>
+                    </div> <!-- end s-content__entry-header -->
+
+                    <div class="s-content__primary">
+
+                        <div class="s-content__page-content">
+
+                            <p class="lead">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد
+                            </p> 
+
+                            <p>
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد
+                            </p>
+
+                            <br>
+
+                            <div class="row block-large-1-2 block-tab-full s-content__blocks">
+                                <div class="column">
+                                    <h4 class="font">راه های دسترسی با من</h4>
+                                    <p>
+                                    ایران قزوین<br>
+                                    </p>
+                                </div>
+
+                                <div class="column">
+                                    <h4 class="font">اطلاعات من</h4>
+                                    <p>
+                                    aliesmaeili1177@gmail.com<br>
+                                    progialo11@gmail.com <br>
+                                    تلفن : 09012393138
+                                    </p> 
+                                </div>
+                            </div> <!-- end s-content__blocks -->
+                            {% if user.is_authenticated %}
+    
+
+                            <form class="s-content__form" method="POST" action="{% url 'blog:contact' %}">
+                                {% csrf_token %}
+                    
+                                {% if messages %}
+
+                                    {% for message in messages %}
+                                
+                                        <div id="message" class="container text-center w-50">
+                                            <div class="alert alert-{{message.tags}} alert-dismissible" role="alert">
+                                                <strong>
+                                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                        خطا :
+                                                    {% endif %}
+                                                </strong>
+                                                {{message}}
+                                            </div> 
+                                        </div>
+                                        
+                                    {% endfor %}
+                            
+                                {% endif %}
+                                  
+                                <fieldset>
+                               
+
+                                    <div class="form-field">
+                                        <input name="name" type="text" {% if user.is_authenticated %} value='{{user.get_full_name}}' {% endif %} 
+                                        class="h-full-width h-remove-bottom font" placeholder="نام و نام خانوادگی">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <input name="email" type="text" {% if user.is_authenticated %} value='{{user.email}}' {% endif %} 
+                                         class="h-full-width h-remove-bottom font" placeholder="ایمیل خود را وارد کنید">
+                                    </div>
+
+                                    <div class="message form-field">
+                                        <textarea name="context" class="h-full-width font" placeholder="متن خود را بنویسید" ></textarea>
+                                    </div>
+
+                                    <br>
+                                    <button type="submit" class="submit btn btn--primary h-full-width font">ارسال</button>
+
+                                </fieldset>
+                            </form> <!-- end form -->
+                            {% else %}
+                                <span>برای ارتباط با ما لطفا <a href="{% url 'login' %}">وارد</a> شوید</span>
+                            {% endif %}
+                        </div> <!-- end s-entry__page-content -->
+
+                    </div> <!-- end s-content__primary -->
+                </article> <!-- end entry -->
+
+            </div> <!-- end column -->
+        </div> <!-- end row -->
+
+    </section> <!-- end s-content -->
+
+    {% endblock %}
+
+{% block add_script_contact %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        // time alert
+        setTimeout(function(){
+            $("#message").fadeOut('slow');
+        },4000)
+
+
+    </script>
+{% endblock %}
